@@ -97,7 +97,7 @@ running the trained policy in held-out simulations or on data.
 
 | Key | Citation | Notes |
 |---|---|---|
-| A26 | Alejo C, Luers A, Ventimiglia A, Arce-Plata M-I, Matthews HD (2026). Maximizing Nature-Based Solutions Using Artificial Intelligence to Align Global Biodiversity, Climate, and Water Targets. *Earth's Future* 14: e2025EF007560. doi:10.1029/2025EF007560. | **Canada 30x30** conservation and restoration priorities; "we used the Reinforcement Learning algorithm CAPTAIN (Silvestro et al., 2022)". Validated against random selection of planning units and existing protected areas; no Marxan or prioritizr comparison seen in the visible text [A26 web copy]. Independent of the CAPTAIN core team (Silvestro not an author per Crossref). Directly relevant to NCC context. |
+| A26 | Alejo C, Luers A, Ventimiglia A, Arce-Plata M-I, Matthews HD (2026). Maximizing Nature-Based Solutions Using Artificial Intelligence to Align Global Biodiversity, Climate, and Water Targets. *Earth's Future* 14: e2025EF007560. doi:10.1029/2025EF007560. | **Canada 30x30** conservation and restoration scenarios with CAPTAIN, v1-style workflow (train on simulations, apply to empirical data). Static, one-shot. Authors are from Concordia, Future Earth Canada, Microsoft and Universite de Montreal; no CAPTAIN developers. Compared only with random selection and existing PAs; no other planning tool is mentioned. Full text read; details in section 3.4. |
 | H26 | Horn K, Silvestro D, Wallis C, Leitao PJ, Daldaban E, Rudolph A (2026). Identifying valuable forest habitats for conservation in north-western Germany using AI and citizen science. EGU General Assembly 2026, EGU26-4011. | Ten forest bird indicator species, 2016-2024 habitat models, select 30% of forest sites in North Rhine-Westphalia, scenarios with and without opportunity costs. Conference abstract only. |
 | G25 | Guevara M, Rowden A, Silvestro D (2025). Use of Artificial Intelligence to Assist Marine Spatial Planning: Development of a 'Proof-of-Concept' Study for New Zealand. One Ocean Science Congress 2025, OOS2025-857. | Compares CAPTAIN priorities with existing MPAs; reports CAPTAIN "can substantially change where MPAs should be placed". Abstract only. Likely the same NZ marine dataset used in QO26 (unverified). |
 | C24 | Silvestro D (2024). We built an AI tool to help set priorities for conservation in Madagascar: what we found. *The Conversation*, 2024-03-26 (republished by phys.org and AIhub). | Popular piece. Reports the Madagascar tree application from S22; no new quantitative results. Discloses Silvestro co-founded CAPTAIN Technologies Ltd. The Kew-led Madagascar review it links (Ralimanana et al. 2022, *Science* 378: eadf1466) is a broad review; I found no evidence that it used CAPTAIN (unverified). |
@@ -453,8 +453,31 @@ which made this assessment possible.
   protection; Marxan and Zonation are named in the Introduction only, and
   prioritizr or ILP solvers are not mentioned. No code or data release for
   the PPO/IQN implementation was found [QO26].
-- **A26**: validation against random planning units and existing protected
-  areas only [A26].
+- **A26** (full text and Supporting Information read 2026-11-27): Canada,
+  10 x 10 km planning units (about 93,500 implied by "16,600 planning units
+  = 17.75% of the total area"), 59 threatened species from IUCN and BirdLife
+  area of habitat maps built with the `aoh` R package (48 birds, 11 mammals,
+  6 plants, 1 reptile, 1 amphibian) [A26, Section 2.2]. CAPTAIN workflow
+  follows S22: 100 simulated environments, a network with 8 hidden ReLU
+  neurons and softmax sampling, parallel ES for 100 epochs, then applied to
+  the empirical Canada environment; no version number or runtime is given
+  [A26, Section 2.3]. Training budget was "arbitrarily defined as 10%" of
+  total cost, while the empirical scenarios target about 17.75% of area
+  (conservation) or about 7% (restoration). Reward: maximise occurrence of
+  threatened species and "guarantee at least 10%" of each range while
+  avoiding high costs. Co-benefits (ecological integrity, carbon, surface
+  water) enter only through the cost layer, with ad hoc tenfold cost
+  reductions chosen by comparing 1, 0.5 and 0.1 multipliers (Figures
+  S8-S13); PUs with human footprint of 5 or more get the maximum cost. PUs
+  with 50 km2 or more of existing PA are excluded (12.25%). Ten replicates per
+  scenario; selection frequencies used to trim units beyond the area target.
+  Validation is against random selection and existing PAs only, reported as
+  average outcomes (species per 100 km2, tC/ha, and so on) [A26, Section 2.3;
+  Figures 3, 5, S16, S19]. Whether every species reached its 10% target is
+  not reported in the paper or the Supporting Information. Marxan, Zonation,
+  prioritizr and ILP are not mentioned. Data and code on Zenodo,
+  doi:10.5281/zenodo.17259008 [A26, Availability Statement]. Article licence
+  CC BY-NC-ND. Funding: NSERC Alliance grant with Microsoft.
 
 ---
 
@@ -717,8 +740,10 @@ These are ideas to evaluate, not recommendations yet.
    locked-in/out constraints? (Code reviewer to confirm.)
 6. Citation-based reception: how many independent groups use CAPTAIN (needs
    Web of Science or Scopus citation search; not done).
-7. Does A26 (Canada) report comparisons or runtime details in its methods or
-   supplement? Only the abstract and visible text were checked.
+7. Resolved: A26 (Canada) compares only with random selection and existing
+   PAs and reports no runtime (full text read; see section 3.4). Its data and
+   code are on Zenodo (10.5281/zenodo.17259008), which makes it a candidate
+   Canadian benchmark.
 8. Does B26 (agrobiodiversity) compare with any SCP tool in its full text?
 
 ---
@@ -772,8 +797,9 @@ Applications, commentary and related work
 - [A26] Alejo C, Luers A, Ventimiglia A, Arce-Plata M-I, Matthews HD (2026).
   Maximizing Nature-Based Solutions Using Artificial Intelligence to Align
   Global Biodiversity, Climate, and Water Targets. Earth's Future 14:
-  e2025EF007560. <https://doi.org/10.1029/2025EF007560> (abstract and web copy
-  at <https://sustainabilitydigitalage.org/featured/maximizing-nature-based-solutions-using-artificial-intelligence-to-align-global-biodiversity-climate-and-water-targets/>).
+  e2025EF007560. <https://doi.org/10.1029/2025EF007560> (full text and
+  Supporting Information read; data and code at
+  <https://doi.org/10.5281/zenodo.17259008>).
 - [H26] Horn K, Silvestro D, Wallis C, Leitao PJ, Daldaban E, Rudolph A
   (2026). Identifying valuable forest habitats for conservation in
   north-western Germany using AI and citizen science. EGU26-4011.

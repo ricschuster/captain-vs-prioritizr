@@ -58,7 +58,7 @@ Companion document: [`02_prioritizr_review.md`](02_prioritizr_review.md).
 | 2025 | Silvestro et al. *COSUST* 77: 101587 [S25-COSUST] | Opinion | 30x30 and financial disclosure metrics |
 | 2026 | Silvestro et al. *Global Change Biology* 32: e71165 [S26-GCB] | Paper | CAPTAIN v2, restoration, carbon vs extinction risk, Atlantic Forest |
 | 2026 | Silvestro et al. *Environmental Research Letters* 21: 181002 [S26-ERL] | Perspective | RL from human feedback for stakeholder priorities; cites prioritizr |
-| 2026 | Alejo et al. *Earth's Future* 14: e2025EF007560 [A26] | Independent application | CAPTAIN for Canada's 30x30; validated only against random and existing PAs |
+| 2026 | Alejo et al. *Earth's Future* 14: e2025EF007560 [A26] | Independent application | CAPTAIN (v1-style workflow, static) for Canada's 30x30 at 10 km, 59 threatened species; compared only with random and existing PAs; target attainment not reported; data and code on Zenodo 10.5281/zenodo.17259008 |
 | 2026 | Butikofer et al., bioRxiv [B26] | Preprint | Crop wild relatives under climate change |
 | 2026 | Quintero Ossa et al., arXiv:2611.32948 [QO26] | Preprint (v1, 2026-11-24) | Swaps ES for PPO; finds decision granularity, not the optimiser, drives gains; only baseline is no protection, no ILP comparison (checked against the PDF) |
 
@@ -233,7 +233,10 @@ checked, and the script regenerates it.
 These feed `03_comparison.md` and the recommendation; none are decisions yet.
 
 1. **Benchmark first.** (a) Static: rebuild the v3 toy problem and the
-   Madagascar data in prioritizr (min shortfall with budget, `gap = 0`).
+   Madagascar data in prioritizr (min shortfall with budget, `gap = 0`). The
+   Canada 30x30 study [A26] is a third static candidate: 10 km planning units,
+   59 threatened species with 10% range targets, data and code on Zenodo, and
+   directly relevant to NCC.
    (b) Dynamic: in CAPTAIN's simulator, compare the learned policy, a one-shot
    prioritizr plan, a rolling-horizon prioritizr plan re-solved each step, and
    greedy. Follow Equihua et al. 2024 [E24] in checking RL against known optima.
@@ -260,5 +263,8 @@ These feed `03_comparison.md` and the recommendation; none are decisions yet.
    "NonCommercial" affect NCC use?
 5. Is per-dataset training the intended v3 workflow, or is transfer from
    simulated systems still supported?
-6. Do the full texts of A26 (Canada) and B26 compare against any other
-   planning tool?
+6. Does the full text of B26 compare against any other planning tool? (A26
+   does not: random and existing PAs only.)
+7. With A26's Zenodo data, does an exact prioritizr solution meet every 10%
+   target within the same area budget, and how does it compare on their
+   co-benefit metrics?
