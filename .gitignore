@@ -27,3 +27,6 @@ tmp/
 # Claude Code local overrides (personal, not shared)
 .claude/settings.local.json
 .claude/worktrees/
+
+# Local, unversioned data and run outputs (licences unchecked, large)
+local-data/
