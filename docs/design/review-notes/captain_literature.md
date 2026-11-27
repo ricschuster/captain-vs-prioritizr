@@ -91,7 +91,7 @@ running the trained policy in held-out simulations or on data.
 | S26-GCB | Silvestro D, Goria S, Rau E-P, Ferreira de Lima RA, Groom B, Jacobsson P, Sterner T, Antonelli A (2026). Using artificial intelligence to optimize ecological restoration for climate and biodiversity. *Global Change Biology* 32: e71165. doi:10.1111/gcb.71165. Preprint: bioRxiv doi:10.1101/2025.01.31.635975 (v1 2025-02-06 to v4 2026-10-08). | Peer reviewed | "CAPTAIN v.2" multi-objective RL for restoration (carbon, extinction risk, cost); Atlantic Forest case study. I read preprint v4. |
 | S26-ERL | Silvestro D, Goria S, Rau E-P, Sterner T, Antonelli A (2026). Reconciling top-down and bottom-up conservation priorities with reinforcement learning from human feedback. *Environmental Research Letters* 21: 181002. doi:10.1088/1748-9326/aea2ab. Preprint: EcoEvoRxiv doi:10.32942/X2T651 (first titled "Reconciling top-down conservation priorities with bottom-up local needs", 2025-11-21). | Peer reviewed (perspective) | Proposes an RLHF architecture; no empirical results. I read the EcoEvoRxiv PDF. Cites prioritizr (Hanson et al. 2025, *Conserv. Biol.* 39: e14376) as an example of SCP software. |
 | B26 | Butikofer L, Silvestro D, Rubio Teso ML, Molina AS, Lara-Romero C, Garcia Valdes R, Broennimann O, Iriondo JM, et al. (2026). Future-proofing agrobiodiversity: climate and niche-aware conservation planning using reinforcement learning. bioRxiv doi:10.64898/2026.05.04.722509. | Preprint | New CAPTAIN routines for range shifts and niche coverage of European crop wild relatives (186 then 1,140 taxa). No Marxan/prioritizr comparison mentioned in abstract. |
-| QO26 | Quintero Ossa AM, Silvestro D, Rudd-Jones J, Perez-Ortiz M (2026). Beyond Expected Value: PPO with Distributional Critics for Systematic Conservation Planning. arXiv:2611.32948 (submitted 2026-11-24). | Preprint (3 days old) | Replaces CAPTAIN's Evolution Strategies optimiser with PPO plus an Implicit Quantile Network (CVaR objective); New Zealand marine data, 583 species. |
+| QO26 | Quintero Ossa AM, Silvestro D, Rudd-Jones J, Perez-Ortiz M (2026). Beyond Expected Value: PPO with Distributional Critics for Systematic Conservation Planning. arXiv:2611.32948 (submitted 2026-11-24). | Preprint, v1 | Replaces CAPTAIN's Evolution Strategies optimiser with PPO plus an Implicit Quantile Network (CVaR objective); New Zealand marine data, 583 species. |
 
 ### 1.2 Applications and conference work using CAPTAIN
 
@@ -244,8 +244,8 @@ All of this section is from S22 Methods and the Supplementary Information
   [S22-SI].
 - In v3, docs describe the trainer as Natural Evolution Strategies with
   z-scored advantages by default [C3-ARCH, C3-CHANGELOG]. QO26 reports ES with
-  32 perturbations per iteration on its NZ setup and up to ~58 h wall-clock for
-  a full run (ES, K = 50 cells per step) [QO26, Table 1].
+  32 perturbations per iteration at K = 1,000, and 64 perturbations for the
+  K = 50 run, which took about 58 h to epoch 110 of 150 [QO26, Tables 1-2].
 
 ### 2.6 Objectives supported (v1)
 
@@ -425,13 +425,34 @@ which made this assessment possible.
   Discussion]. Baselines: rule-based selections (for example threatened
   species per cost) "yielded substantially worse outcomes" (Table S3, not
   read) [S26-GCB-pre v4]. No Marxan, Zonation or prioritizr comparison.
-- **QO26**: on NZ marine data with 583 species, ES with K = 1,000 cells per
-  step left 4 species EN; ES re-trained with K = 50 cleared them, as did PPO.
+- **QO26** (verified against the v1 PDF, 2026-11-27): NZ marine data, 583
+  species, 800 x 500 grid, 17,000-cell budget, synthetic Perlin-noise
+  disturbance with intensity drawn from U(0.05, 0.5) per episode [QO26,
+  Section 2]. Final species counts by category, 10 disturbance draws, greedy
+  evaluation [QO26, Table 1]:
+
+  | Model | LC | NT | VU | EN | CR | Training |
+  |---|---|---|---|---|---|---|
+  | No protection | 395 | 86 | 30 | 12 | 60 | |
+  | ES, K = 1,000 | 532 | 24 | 18 | 4 | 5 | about 300 s per iteration |
+  | ES, K = 50 | 545 | 27 | 6 | 0 | 5 | 110 iterations, about 58 h |
+  | PPO, K = 50 | 530 | 38 | 9 | 0 | 6 | 300 iterations, about 19 h |
+  | IQN, alpha = 1, K = 50 | 540 | 28 | 10 | 0 | 5 | 200 iterations, about 43 h |
+  | IQN CVaR, alpha = 0.25, K = 50 | 548 | 20 | 8 | 2 | 5 | 200 iterations, about 55 h |
+
   Authors conclude "Granularity, not the optimiser, is therefore the primary
-  driver"; PPO's advantage is training cost (~19 h vs ~58 h). Single training
-  runs, margins "indicative rather than statistically conclusive"; disturbance
-  is synthetic Perlin noise; zero outcome variance across disturbance seeds
-  [QO26, Table 1 and limitations, via arXiv HTML].
+  driver of the recovery" and that their earlier ES K = 1,000 vs PPO
+  comparison "overstated PPO's algorithmic contribution" [QO26, Section 3].
+  At matched K = 50, PPO is worse than ES on NT (38 vs 27) and VU (9 vs 6);
+  the paper says PPO's advantage is "training efficiency, not raw outcome
+  quality". The ES K = 1,000 baseline used 32 perturbations per iteration, but
+  the K = 50 ES run behind the 58 h figure used 64 perturbations and 8 workers
+  and was evaluated at epoch 110 of 150 [QO26, Table 2 caption]. Single
+  training run per model, "indicative rather than statistically conclusive";
+  zero outcome variance across disturbance seeds. The only baseline is no
+  protection; Marxan and Zonation are named in the Introduction only, and
+  prioritizr or ILP solvers are not mentioned. No code or data release for
+  the PPO/IQN implementation was found [QO26].
 - **A26**: validation against random planning units and existing protected
   areas only [A26].
 
@@ -744,7 +765,7 @@ Primary CAPTAIN literature
 - [QO26] Quintero Ossa AM, Silvestro D, Rudd-Jones J, Perez-Ortiz M (2026).
   Beyond Expected Value: PPO with Distributional Critics for Systematic
   Conservation Planning. arXiv:2611.32948. <https://arxiv.org/abs/2611.32948>
-  (read via arXiv HTML summary; numbers should be re-checked against the PDF).
+  (v1, submitted 2026-11-24; read via arXiv HTML and checked against the PDF).
 
 Applications, commentary and related work
 

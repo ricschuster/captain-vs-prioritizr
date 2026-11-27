@@ -60,7 +60,7 @@ Companion document: [`02_prioritizr_review.md`](02_prioritizr_review.md).
 | 2026 | Silvestro et al. *Environmental Research Letters* 21: 181002 [S26-ERL] | Perspective | RL from human feedback for stakeholder priorities; cites prioritizr |
 | 2026 | Alejo et al. *Earth's Future* 14: e2025EF007560 [A26] | Independent application | CAPTAIN for Canada's 30x30; validated only against random and existing PAs |
 | 2026 | Butikofer et al., bioRxiv [B26] | Preprint | Crop wild relatives under climate change |
-| 2026 | Quintero Ossa et al., arXiv:2611.32948 [QO26] | Preprint (3 days old) | Swaps ES for PPO; finds decision granularity, not the optimiser, drives gains. Numbers read from HTML only, recheck against PDF |
+| 2026 | Quintero Ossa et al., arXiv:2611.32948 [QO26] | Preprint (v1, 2026-11-24) | Swaps ES for PPO; finds decision granularity, not the optimiser, drives gains; only baseline is no protection, no ILP comparison (checked against the PDF) |
 
 No independent critique or benchmark of CAPTAIN was found (Web of Science and
 Scopus not searched) [captain_literature section 1.4].
