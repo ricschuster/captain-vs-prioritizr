@@ -3,9 +3,9 @@
 ## What this is
 
 captain-vs-prioritizr is a learning and evaluation project on CAPTAIN
-(https://www.captain-project.net/), a reinforcement-learning framework for
+(<https://www.captain-project.net/>), a reinforcement-learning framework for
 conservation area prioritization, and how it compares with prioritizr
-(https://prioritizr.net/).
+(<https://prioritizr.net/>).
 
 It is a review and benchmarking exercise, not a new software package. The
 goal is to give the prioritizr team an informed answer to "is CAPTAIN
@@ -34,11 +34,13 @@ and where each one is the better fit.
 ## MVP scope
 
 1. CAPTAIN review: papers, docs, source code, install and run a provided
-   example. Written up in `docs/design/01_captain_review.md`.
+   example. Written up in `docs/design/01_captain_review.md`, with a matching
+   prioritizr review in `docs/design/02_prioritizr_review.md` so both tools
+   are described on the same terms.
 2. Conceptual comparison with prioritizr: problem formulation, objectives,
    constraints, optimality, treatment of time and uncertainty, data inputs,
    outputs, performance, licensing, maintenance. Written up in
-   `docs/design/02_comparison.md`.
+   `docs/design/03_comparison.md`.
 3. Hands-on comparison on one shared dataset (where feasible), with results
    and caveats.
 4. Recommendation for the prioritizr team: ignore, watch, borrow ideas,

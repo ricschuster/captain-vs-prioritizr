@@ -10,9 +10,9 @@ captain-vs-prioritizr
 ## Project purpose
 
 A learning and evaluation project: understand CAPTAIN (Conservation Area
-Prioritization Through Artificial INtelligence, https://www.captain-project.net/),
+Prioritization Through Artificial INtelligence, <https://www.captain-project.net/>),
 a reinforcement-learning approach to spatial conservation prioritization, and
-compare it with prioritizr (https://prioritizr.net/), the integer linear
+compare it with prioritizr (<https://prioritizr.net/>), the integer linear
 programming (ILP) based R package. The owner is a prioritizr developer; the
 practical question is whether CAPTAIN's ideas (or the tool itself) are worth
 deeper engagement by the prioritizr team, for example through features,
